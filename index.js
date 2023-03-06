@@ -1,16 +1,34 @@
 const admin = require("firebase-admin");
 const serviceAccount = require("./firebase_sdk.json");
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://omnichat-9a789-default-rtdb.firebaseio.com/"
-});
+function instantiateFirebase() {
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        databaseURL: "https://omnichat-9a789-default-rtdb.firebaseio.com/"
+    });
 
-const database = admin.database();
+    return admin.database();
+}
 
-database.ref("messages").set("Hello, world!");
+class Database{
+    constructor(){
+        this.database = instantiateFirebase();
+    }
 
-database.ref("messages").once("value", (snapshot) => {
-    const message = snapshot.val();
-    console.log(message);
-});
+    writeMessageToDatabase(message){
+        this.database.ref("messages").push(message);
+    }
+
+    retrieveMessageFromDatabase(message){
+        this.database.ref("messages").once("value", (snapshot) => {
+            const message = snapshot.val();
+            console.log(message);
+        });
+    }
+}
+
+if (require.main === module) {
+    // This script is being run directly
+    let db = new Database();
+    db.retrieveMessageFromDatabase();
+}
