@@ -27,38 +27,47 @@ function createPremise(messageRef) {
 }
 
 class Database{
-    constructor(){
-        this.db = instantiateFirebase();
+    constructor(inputDatabase = null){
+        if (inputDatabase) {
+            this.db = inputDatabase;
+        } else {
+            this.db = instantiateFirebase();
+        }
+        this.path = "dummy_messages"
         console.log("Database instantiated!")
     }
 
-    writeMessageToDatabase(message="Hello World", path="dummy_messages"){
-        this.db.ref(path).push(message);
+    createFirebaseEntry(message= {"message": "Hello World!", "sender": "Alice"}){
+        this.db.ref(this.path).push(message);
     }
 
-    retrieveMessageFromDatabase(path="dummy_messages"){
-        // Get a reference to the database service
+    readFirebaseEntry(){
         let database = this.db;
-        // Get a reference to the specified path
-        let messageRef = database.ref(path);
+        let messageRef = database.ref(this.path);
         return createPremise(messageRef);
+    }
+
+    updateFirebaseEntry(uniqueId, newData){
+        let ref = this.db.ref(this.path).child(uniqueId);
+        ref.update(newData);
     }
 
     printPremise(inputPremise){
         inputPremise.then(function(message) {
-            // Print the message
             console.log(message);
         });
     }
 }
 
+function waterBase(firebaseInstance, message= {"message": "Hello World!", "sender": "Alice"}){
+    firebaseInstance.ref(this.path).push(message);
+}
+
 if (require.main === module) {
     // This script is being run directly
     let db = new Database();
-    let dummy_msg = "hello world"
-    let aux = {"sender": "Alice"}
-    let retrieved_msg = db.retrieveMessageFromDatabase("dummy_messages");
-    db.printPremise(retrieved_msg);
+    // db.createFirebaseEntry()
+    db.updateFirebaseEntry("-NQ6Asktmpaa7QEKSDPl", {"message": "New message!", "sender": "Bob"});
 }
 
 module.exports = Database;
