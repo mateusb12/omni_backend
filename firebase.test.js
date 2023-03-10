@@ -1,4 +1,4 @@
-const Database = require('./index.js');
+const { Database } = require('./index.js');
 const db = new Database();
 
 
