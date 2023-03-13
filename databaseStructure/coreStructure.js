@@ -1,6 +1,5 @@
 import {Flavor, Size, Toppings} from "./enumStructure.js";
-
-export class Order {
+export class Order{
     constructor(client, timeStamp) {
         this.client = client;
         this.timeStamp = timeStamp;
@@ -23,7 +22,7 @@ export class Order {
     }
 }
 
-export class Customer {
+export class Customer{
     constructor(name, phone, address) {
         this.name = name;
         this.phone = phone;
@@ -39,7 +38,7 @@ export class Customer {
     }
 }
 
-export class Pizza {
+export class Pizza{
     constructor(size = Size.S, firstFlavor = Flavor.MARGARITA, secondFlavor = Flavor.VEGGIE,
                 toppings = [Toppings.MUSHROOMS, Toppings.OLIVES],
                 price = 10.00, quantity = 1) {
@@ -63,7 +62,7 @@ export class Pizza {
     }
 }
 
-export class Drink {
+export class Drink{
     constructor(type = "Coke", size = Size.S, price = 2.00, quantity = 1) {
         this.type = type;
         this.size = size;

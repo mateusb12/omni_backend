@@ -1,3 +1,10 @@
+export function getRandomEnumValue(enumObj) {
+    const values = Object.values(enumObj);
+    return values[Math.floor(Math.random() * values.length)];
+}
+
+
+
 export const Size = Object.freeze({
     S: "Small",
     M: "Medium",
