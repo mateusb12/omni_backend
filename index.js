@@ -1,5 +1,7 @@
 const admin = require("firebase-admin");
 const serviceAccount = require("./firebase_sdk.json");
+const {generateRandomOrder} = require("./databaseStructure/randomGenerator");
+const {printPremise, checkForDuplicateMessage, checkForDuplicateSnapshot} = require("./firebaseUtils");
 
 function instantiateFirebase() {
     admin.initializeApp({
@@ -38,7 +40,27 @@ class FirebaseDatabase{
     }
 
     createFirebaseEntry(message= {"message": "Hello World!", "sender": "Alice"}){
-        this.db.ref(this.path).push(message);
+        const ref = this.db.ref(this.path);
+        return ref.once("value")
+            .then(snapshot => {
+                const isDuplicate = checkForDuplicateSnapshot(snapshot, message)
+                if (!isDuplicate) {
+                    return ref.push(message)
+                        .then(() => {
+                            return { statusCode: 200, body: "Entry successfully added!" };
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            return { statusCode: 500, body: "Error adding entry" };
+                        });
+                } else {
+                    return { statusCode: 400, body: "Duplicate entry found" };
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                return { statusCode: 500, body: "Error retrieving branch data" };
+            });
     }
 
     readFirebaseEntry(){
@@ -52,21 +74,17 @@ class FirebaseDatabase{
         ref.update(newData);
     }
 
-    printPremise(inputPremise){
-        inputPremise.then(function(message) {
-            console.log(message);
-        });
-    }
-}
 
-function waterBase(firebaseInstance, message= {"message": "Hello World!", "sender": "Alice"}){
-    firebaseInstance.ref(this.path).push(message);
 }
 
 if (require.main === module) {
     // This script is being run directly
     let db = new FirebaseDatabase();
-    db.updateFirebaseEntry("-NQ6Asktmpaa7QEKSDPl", {"message": "New message!", "sender": "Bob"});
+    // const randomOrder = generateRandomOrder();
+    const dummyEntry = {"a": "b", "c": "d"};
+    let createResponse = db.createFirebaseEntry(dummyEntry);
+    // db.updateFirebaseEntry("-NQ6Asktmpaa7QEKSDPl", {"message": "New message!", "sender": "Bob"});
+    printPremise(createResponse)
     console.log("Done!")
 }
 

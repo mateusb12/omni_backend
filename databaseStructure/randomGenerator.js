@@ -60,4 +60,7 @@ if (require.main === module) {
     console.log(randomOrder);
 }
 
+module.exports = {
+    generateRandomOrder
+}
 
