@@ -1,5 +1,6 @@
 const { FirebaseDatabase } = require('./index.js');
-const db = new FirebaseDatabase();
+let db = new FirebaseDatabase();
+db.path = "test_messages"
 
 
 test('writeMessageToDatabase should write the message to the database', async () => {

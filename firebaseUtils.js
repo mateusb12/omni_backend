@@ -10,6 +10,9 @@ function checkForDuplicateMessage(message, hashMap) {
 
 function checkForDuplicateSnapshot(snapshot, message) {
     const data = snapshot.val();
+    if(data === null){
+        return false;
+    }
     const hashMap = JSON.parse(JSON.stringify(data));
     return checkForDuplicateMessage(hashMap, message);
 }

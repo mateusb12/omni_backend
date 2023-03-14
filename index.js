@@ -40,10 +40,12 @@ class FirebaseDatabase{
     }
 
     createFirebaseEntry(message= {"message": "Hello World!", "sender": "Alice"}){
-        const ref = this.db.ref(this.path);
+        let path = this.path;
+        const ref = this.db.ref(path);
         return ref.once("value")
             .then(snapshot => {
                 const isDuplicate = checkForDuplicateSnapshot(snapshot, message)
+                console.log("Is duplicate: " + isDuplicate);
                 if (!isDuplicate) {
                     return ref.push(message)
                         .then(() => {
@@ -69,18 +71,28 @@ class FirebaseDatabase{
         return createPremise(messageRef);
     }
 
+    readAllFirebaseEntries(){
+        let database = this.db;
+        let messageRef = database.ref();
+        return messageRef.once("value")
+            .then(snapshot => {
+                return snapshot.val();
+            })
+            .catch(error => {
+                console.error(error);
+                return { statusCode: 500, body: "Error retrieving branch data" };
+            });
+    }
+
     updateFirebaseEntry(uniqueId, newData){
         let ref = this.db.ref(this.path).child(uniqueId);
         ref.update(newData);
     }
-
-
 }
 
 if (require.main === module) {
     // This script is being run directly
     let db = new FirebaseDatabase();
-    // const randomOrder = generateRandomOrder();
     const dummyEntry = {"a": "b", "c": "d"};
     let createResponse = db.createFirebaseEntry(dummyEntry);
     // db.updateFirebaseEntry("-NQ6Asktmpaa7QEKSDPl", {"message": "New message!", "sender": "Bob"});
