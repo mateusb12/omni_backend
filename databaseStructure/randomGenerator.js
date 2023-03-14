@@ -1,11 +1,11 @@
-import {Flavor, Size, SoftDrink, Toppings, getRandomEnumValue} from "./enumStructure.js";
-import {Customer, Drink, Order, Pizza} from "./coreStructure.js";
+const { Size, Flavor, Toppings, getRandomEnumValue} = require('./enumStructure');
+const { Drink, Pizza, Order, Customer } = require('./coreStructure');
 
-export const randomFloat = (min, max) => {
+const randomFloat = (min, max) => {
     return (Math.random() * (max - min) + min).toFixed(2);
 }
 
-export const randomInteger = (min, max) => {
+const randomInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
@@ -25,7 +25,7 @@ function generateRandomPizza(){
 }
 
 function generateRandomSoftDrink(){
-    let softDrink = getRandomEnumValue(SoftDrink);
+    let softDrink = getRandomEnumValue(Drink);
     let size = getRandomEnumValue(Size);
     let price = randomFloat(1, 5);
     let quantity = randomInteger(1, 2);
@@ -55,17 +55,9 @@ function generateRandomOrder(){
     return dummyOrder;
 }
 
-const randomOrder = generateRandomOrder();
-const pizza1 = new Pizza(Size.L, Flavor.PEPPERONI, Flavor.HAWAIIAN, [Toppings.OLIVES, Toppings.ONIONS],
-        15.00, 2);
-const pizza2 = new Pizza(Size.M, Flavor.VEGGIE, Flavor.MARGARITA, [Toppings.HAM, Toppings.PINEAPPLE],
-        12.00, 1);
-const pizza3 = generateRandomPizza();
-const drink1 = new Drink(SoftDrink.COKE, Size.M, 2.00, 1);
-const customer1 = new Customer("John", "123456789", "123 Fake St.");
-const items = [pizza1, pizza2, drink1];
-const order = new Order(customer1, "2020-01-01 12:00:00");
-order.addItems(items)
-let test = order.jsonify()
-console.log(JSON.stringify(orderHashmap, null, 2));
-console.log("Order");
+if (require.main === module) {
+    const randomOrder = generateRandomOrder();
+    console.log(randomOrder);
+}
+
+

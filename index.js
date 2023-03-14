@@ -26,7 +26,7 @@ function createPremise(messageRef) {
     });
 }
 
-class FirebaseWrapper{
+class FirebaseDatabase{
     constructor(inputDatabase = null){
         if (inputDatabase) {
             this.db = inputDatabase;
@@ -52,11 +52,6 @@ class FirebaseWrapper{
         ref.update(newData);
     }
 
-    deleteFirebaseEntry(uniqueId){
-        let ref = this.db.ref(this.path).child(uniqueId);
-        ref.remove();
-    }
-
     printPremise(inputPremise){
         inputPremise.then(function(message) {
             console.log(message);
@@ -70,10 +65,9 @@ function waterBase(firebaseInstance, message= {"message": "Hello World!", "sende
 
 if (require.main === module) {
     // This script is being run directly
-    let fb = new FirebaseWrapper();
-    // db.createFirebaseEntry()
-    // fb.updateFirebaseEntry("-NQ6uKDsaC-G1ufX3Mq6", {"message": "New message!", "sender": "Bob"});
-    fb.deleteFirebaseEntry("-NQ6uKDsaC-G1ufX3Mq6")
+    let db = new FirebaseDatabase();
+    db.updateFirebaseEntry("-NQ6Asktmpaa7QEKSDPl", {"message": "New message!", "sender": "Bob"});
+    console.log("Done!")
 }
 
-module.exports = {Database: FirebaseWrapper, waterBase: waterBase};
+module.exports = { FirebaseDatabase };

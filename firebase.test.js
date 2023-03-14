@@ -1,5 +1,5 @@
-const { Database } = require('./index.js');
-const db = new Database();
+const { FirebaseDatabase } = require('./index.js');
+const db = new FirebaseDatabase();
 
 
 test('writeMessageToDatabase should write the message to the database', async () => {
@@ -22,6 +22,7 @@ test('retrieveMessageFromDatabase should return a premise with the correct data'
         expectedData
     ));
 });
+
 
 // test('updateMessageInDatabase should update the message in the database', async () => {
 //     let inputData = {"message": "Hello World!", "sender": "Alice"}
