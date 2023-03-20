@@ -35,7 +35,7 @@ class FirebaseDatabase{
         } else {
             this.db = instantiateFirebase();
         }
-        this.path = "dummy_messages"
+        this.path = "test_messages"
         console.log("Database instantiated!")
     }
 
@@ -88,15 +88,21 @@ class FirebaseDatabase{
         let ref = this.db.ref(this.path).child(uniqueId);
         ref.update(newData);
     }
+
+    deleteFirebaseEntry(uniqueId){
+        let ref = this.db.ref(this.path).child(uniqueId);
+        ref.remove();
+    }
 }
 
 if (require.main === module) {
     // This script is being run directly
     let db = new FirebaseDatabase();
-    const dummyEntry = {"a": "b", "c": "d"};
-    let createResponse = db.createFirebaseEntry(dummyEntry);
+    // const dummyEntry = {"a": "b", "c": "d"};
+    // let createResponse = db.createFirebaseEntry(dummyEntry);
     // db.updateFirebaseEntry("-NQ6Asktmpaa7QEKSDPl", {"message": "New message!", "sender": "Bob"});
-    printPremise(createResponse)
+    // printPremise(createResponse)
+    db.deleteFirebaseEntry("-NQWS87Jss1FH9j_weYy")
     console.log("Done!")
 }
 

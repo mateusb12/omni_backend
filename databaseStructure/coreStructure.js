@@ -13,9 +13,7 @@ class Order{
 
     jsonify() {
         return {
-            "customer_name": this.client.name,
-            "customer_phone": this.client.phone,
-            "customer_address": this.client.address,
+            "customerId": this.client.customerId,
             "timestamp": this.timeStamp,
             "total_items": this.items.length,
             "items": this.items.map(item => item.jsonify())
@@ -24,17 +22,19 @@ class Order{
 }
 
 class Customer{
-    constructor(name, phone, address) {
+    constructor(name, phone, address, customerId) {
         this.name = name;
         this.phone = phone;
         this.address = address;
+        this.id = customerId;
     }
 
     jsonify() {
         return {
             "name": this.name,
             "phone": this.phone,
-            "address": this.address
+            "address": this.address,
+            "customerId": this.id
         }
     }
 }

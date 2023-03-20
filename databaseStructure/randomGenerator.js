@@ -48,7 +48,7 @@ function generateRandomItemList(){
 
 function generateRandomOrder(){
     const randomItemList = generateRandomItemList();
-    const dummyCostumer = new Customer("John", "123456789", "123 Fake St.");
+    const dummyCostumer = new Customer("John", "123456789", "123 Fake St.", "12345");
     const dummyDate = "2020-01-01 12:00:00";
     const dummyOrder = new Order(dummyCostumer, dummyDate);
     dummyOrder.addItems(randomItemList);
