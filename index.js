@@ -87,11 +87,13 @@ class FirebaseDatabase{
     updateFirebaseEntry(uniqueId, newData){
         let ref = this.db.ref(this.path).child(uniqueId);
         ref.update(newData);
+        return { statusCode: 200, body: "Entry successfully updated!" };
     }
 
     deleteFirebaseEntry(uniqueId){
         let ref = this.db.ref(this.path).child(uniqueId);
         ref.remove();
+        return { statusCode: 200, body: "Entry successfully deleted!" };
     }
 }
 
@@ -100,9 +102,12 @@ if (require.main === module) {
     let db = new FirebaseDatabase();
     // const dummyEntry = {"a": "b", "c": "d"};
     // let createResponse = db.createFirebaseEntry(dummyEntry);
+    // read all entries using asynchronous way
+    let readResponse = db.readAllFirebaseEntries();
+    printPremise(readResponse);
     // db.updateFirebaseEntry("-NQ6Asktmpaa7QEKSDPl", {"message": "New message!", "sender": "Bob"});
     // printPremise(createResponse)
-    db.deleteFirebaseEntry("-NQWS87Jss1FH9j_weYy")
+    // db.deleteFirebaseEntry("-NQWS87Jss1FH9j_weYy")
     console.log("Done!")
 }
 

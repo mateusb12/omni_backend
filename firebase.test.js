@@ -3,15 +3,21 @@ let db = new FirebaseDatabase();
 db.path = "test_messages"
 
 
-test('writeMessageToDatabase should write the message to the database', async () => {
+test('CRUD test', async () => {
     let inputData = {"message": "Hello World!", "sender": "Alice"}
     // write message to database
     await db.createFirebaseEntry(inputData);
-    const firebaseResult = await db.readFirebaseEntry();
-    let output = Object.values(firebaseResult)[0]
+    const readResult = await db.readFirebaseEntry();
+    let uniqueId = Object.keys(readResult)[0]
+    let output = Object.values(readResult)[0]
     expect(output).toEqual(expect.objectContaining(
         inputData
     ));
+    let newData = {"message": "New message!", "sender": "Bob"}
+    let updateResult = db.updateFirebaseEntry(uniqueId, newData);
+    expect(updateResult).statusCode.toBe(true);
+    let deleteResult = db.deleteFirebaseEntry(uniqueId);
+    expect(deleteResult).statusCode.toBe(true);
 });
 
 
