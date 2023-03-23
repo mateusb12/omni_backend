@@ -35,7 +35,7 @@ class FirebaseDatabase{
         } else {
             this.db = instantiateFirebase();
         }
-        this.path = "test_messages"
+        this.path = "core_messages"
         console.log("Database instantiated!")
     }
 
@@ -100,11 +100,12 @@ class FirebaseDatabase{
 if (require.main === module) {
     // This script is being run directly
     let db = new FirebaseDatabase();
+    const randomOrder = generateRandomOrder();
     // const dummyEntry = {"a": "b", "c": "d"};
-    // let createResponse = db.createFirebaseEntry(dummyEntry);
+    let createResponse = db.createFirebaseEntry(randomOrder);
     // read all entries using asynchronous way
-    let readResponse = db.readAllFirebaseEntries();
-    printPremise(readResponse);
+    // let readResponse = db.readAllFirebaseEntries();
+    printPremise(createResponse);
     // db.updateFirebaseEntry("-NQ6Asktmpaa7QEKSDPl", {"message": "New message!", "sender": "Bob"});
     // printPremise(createResponse)
     // db.deleteFirebaseEntry("-NQWS87Jss1FH9j_weYy")

@@ -1,5 +1,6 @@
 const { Size, Flavor, Toppings, getRandomEnumValue} = require('./enumStructure');
-const { Drink, Pizza, Order, Customer } = require('./coreStructure');
+const { Drink, Pizza, Order } = require('./corePizzaStructure');
+const { Customer } = require('./customerStructure');
 
 const randomFloat = (min, max) => {
     return (Math.random() * (max - min) + min).toFixed(2);

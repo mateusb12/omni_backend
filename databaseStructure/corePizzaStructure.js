@@ -21,23 +21,7 @@ class Order{
     }
 }
 
-class Customer{
-    constructor(name, phone, address, customerId) {
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
-        this.id = customerId;
-    }
 
-    jsonify() {
-        return {
-            "name": this.name,
-            "phone": this.phone,
-            "address": this.address,
-            "customerId": this.id
-        }
-    }
-}
 
 class Pizza{
     constructor(size = Size.S, firstFlavor = Flavor.MARGARITA, secondFlavor = Flavor.VEGGIE,
@@ -84,7 +68,6 @@ class Drink{
 
 module.exports = {
     Order,
-    Customer,
     Pizza,
     Drink
 };
