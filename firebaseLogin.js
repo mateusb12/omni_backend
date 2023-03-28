@@ -19,6 +19,24 @@ class FirebaseLogin{
         return this.firebaseInstance.readFirebaseEntry();
     }
 
+    getUserByUniqueId(uniqueId){
+        return this.firebaseInstance.readFirebaseEntry(uniqueId);
+    }
+
+    getUserByEmail(userEmail){
+        let allUsersPromise = this.getAllUsers();
+        return allUsersPromise.then(allUsersObject => {
+            let userJson = null;
+            for (let userId in allUsersObject){
+                if (allUsersObject[userId].email === userEmail){
+                    userJson = allUsersObject[userId];
+                    break;
+                }
+            }
+            return userJson;
+        });
+    }
+
     getUserUniqueId(userJson){
         let allUsersPromise = this.getAllUsers();
         return allUsersPromise.then(allUsersObject => {
@@ -47,8 +65,23 @@ class FirebaseLogin{
         });
     }
 
-    updateUser(uniqueId, newUserJson){
-        return this.firebaseInstance.updateFirebaseEntry(uniqueId, newUserJson);
+    getAllUsersUniqueIds(){
+        let allUsersPromise = this.getAllUsers();
+        return allUsersPromise.then(allUsersObject => {
+            let allUsersUniqueIds = [];
+            for (let userId in allUsersObject){
+                allUsersUniqueIds.push(userId);
+            }
+            return allUsersUniqueIds;
+        });
+    }
+
+    updateUser(uniqueId, newUserData){
+        return this.firebaseInstance.updateFirebaseEntry(uniqueId, newUserData);
+    }
+
+    deleteUser(uniqueId){
+        return this.firebaseInstance.deleteFirebaseEntry(uniqueId);
     }
 }
 
@@ -89,9 +122,25 @@ function testUpdateUser(inputFirebaseLogin){
     // printPremise(updateResponse);
 }
 
+function testDeleteUser(inputFirebaseLogin){
+    let userUniqueId = "-NRdzqtCeYQZTa0wJ9Wp"
+    let deleteResponse = inputFirebaseLogin.deleteUser(userUniqueId);
+}
+
+function testGetUserByEmail(inputFirebaseLogin){
+    let dummyUserEmail = "mail@example.com"
+    let userJson = inputFirebaseLogin.getUserByEmail(dummyUserEmail);
+    printPremise(userJson);
+}
+
+function testGetAllUsersUniqueIds(inputFirebaseLogin){
+    let allUsersUniqueIds = inputFirebaseLogin.getAllUsersUniqueIds();
+    printPremise(allUsersUniqueIds);
+}
+
 
 if (require.main === module) {
     let instance = new FirebaseDatabase();
     let fl = new FirebaseLogin(instance);
-    testUpdateUser(fl);
+    testGetAllUsersUniqueIds(fl);
 }
