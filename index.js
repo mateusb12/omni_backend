@@ -85,8 +85,9 @@ class FirebaseDatabase{
     }
 
     updateFirebaseEntry(uniqueId, newData){
-        let ref = this.db.ref(this.path).child(uniqueId);
-        ref.update(newData);
+        let ref = this.db.ref(this.path)
+        let childRef = ref.child(uniqueId);
+        childRef.update(newData);
         return { statusCode: 200, body: "Entry successfully updated!" };
     }
 
